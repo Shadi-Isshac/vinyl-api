@@ -11,4 +11,11 @@ router.get('/', function (req, res) {
         .then(vinyls => res.status(200).json({vinyls: vinyls}))
 })
 
+// POST route to vinylsController
+router.post("/", (req, res) => {
+    const data = req.body 
+    Vinyl.create(data)
+        .then((vinyl) => res.status.(201).json({vinyl: vinyl}))
+})
+
 module.exports = router;

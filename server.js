@@ -10,6 +10,9 @@ const PORT = process.env.PORT
 // Create express app
 const app = express()
 
+// middleware to accept json data
+app.use(express.json())app.use(express.json())
+
 // Use logger middleware
 app.use(logger('dev'));
 
