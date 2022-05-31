@@ -1,5 +1,7 @@
+   
 const express = require("express");
 const Vinyl = require('./../models/Vinyl')
+
 const router = express.Router();
 
 // GET /vinyls
@@ -10,30 +12,42 @@ router.get('/', function (req, res) {
         .then(vinyls => res.status(200).json({vinyls: vinyls}))
 })
 
-// Creates new vinyl
-router.post("/", (req, res) => {
-    const data = req.body;
-    Vinyl.create(data).then((vinyl) => res.status(201).json({ vinyl: vinyl }));
-  });
-  // Search vinyl by id
-  router.get("/:id", (req, res) => {
-    Vinyl.findById(req.params.id).then((vinyl) => {
-      res.json({ data: vinyl });
-    });
-  });
-  // deletes vinyl
-  router.delete("/:id", (req, res) => {
-    Vinyl.findByIdAndDelete(req.params.id).then((vinyl) => {
-      res.json({ data: vinyl });
-    });
-  });
-  // updates vinyl
-  router.patch("/:id", (req, res) => {
-    Vinyl.findByIdAndUpdate(req.params.id, req.body, { new: true }).then(
-      (vinyl) => {
-        res.json({ data: vinyl });
-      }
-    );
-  });
+// POST /vinyls
+router.post('/', function(req, res) {
+    // get new vinyl data from body of request
+    const data = req.body
+    // save vinyl to db
+    Vinyl.create(data)
+        // return vinyl as json
+        .then((vinyl => res.status(201).json({vinyl: vinyl})))
+})
+
+// GET /vinyls/:id
+router.get('/:id', function(req, res){
+    // get id from params
+    const id = req.params.id
+    // find vinyl by id
+    Vinyl.findById(id)
+        // return vinyl as json
+        .then(vinyl => res.status(200).json({vinyl: vinyl}))
+})
+
+// DELETE / vinyls/:id
+router.delete('/:id', function(req, res){
+    // get id from params
+    const id = req.params.id
+    // find and delete by id
+    Vinyl.findByIdAndDelete(id)
+        .then(() => res.sendStatus(204))
+})
+
+router.patch('/:id', function(req,res) {
+    // get id from params
+    const id = req.params.id
+    // get new vinyl data from body of request
+    const data = req.body
+    Vinyl.findByIdAndUpdate(id, data, {new: true})
+        .then(vinyl => res.status(200).json({vinyl: vinyl}))
+})
 
 module.exports = router;
