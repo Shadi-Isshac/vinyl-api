@@ -3,7 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const logger = require('morgan')
 const vinylsController = require('./controllers/vinylsController')
-
+const cors = require("cors");
 // Define port
 const PORT = process.env.PORT
 
@@ -15,6 +15,9 @@ app.use(express.json())
 
 // Use logger middleware
 app.use(logger('dev'));
+
+//Use Cors
+app.use(cors())
 
 // Vinyls routes
 app.use('/vinyls', vinylsController)
