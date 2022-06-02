@@ -23,6 +23,8 @@ app.use(cors())
 app.use('/vinyls', vinylsController)
 
 // Start app on port
-app.listen(PORT, () => {
-    console.log(`Listening on port: ${PORT}`)
-})
+app.set("port", process.env.PORT || 8080);
+
+app.listen(app.get("port"), () => {
+  console.log(`✅ PORT: ${app.get("port")} 🌟`);
+});
